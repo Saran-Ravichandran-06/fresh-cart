@@ -1,0 +1,26 @@
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment files
+.env
+
+# PHP vendor (if used)
+vendor/
+
+# Node modules (if frontend extended)
+node_modules/
+
+# Cache
+__pycache__/
+
+# IDE files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.temp

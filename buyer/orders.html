@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Orders - Fruit & Veggie Store</title>
+  <link rel="stylesheet" href="/fruit_veggie_store/assets/css/style.css">
+  <script src="/fruit_veggie_store/assets/js/navbar.js" defer></script>
+  <style>
+    table {
+      width: 80%;
+      margin-left: 10%;
+    }
+    a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body class="buyer">
+  <div id="navbar" data-role="buyer"></div>
+  <br>
+  <h2>My Orders</h2>
+  <div id="ordersTable"></div>
+
+  <script>
+    function fetchOrders() {
+      fetch('orders.php')
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            document.getElementById('ordersTable').innerHTML = `<span style='color:red;'>${data.message}</span>`;
+            return;
+          }
+          let html = `<table border='1' cellpadding='10'>
+                        <tr><th>Order ID</th><th>Total</th><th>Status</th><th>Details</th><th>Action</th></tr>`;
+          data.orders.forEach(order => {
+            html += `<tr id="row_${order.order_id}">
+                      <td>${order.order_id}</td>
+                      <td>₹${order.total_amount}</td>
+                      <td>${order.status}</td>
+                      <td><a href='order_details.php?id=${order.order_id}'>View</a></td>
+                      <td>${order.status==='pending' ? 
+                        `<button onclick='cancelOrder(${order.order_id})'>Cancel</button>` : ''}</td>
+                    </tr>`;
+          });
+          html += `</table>`;
+          document.getElementById('ordersTable').innerHTML = html;
+        });
+    }
+
+    function cancelOrder(orderId) {
+      if (!confirm('Are you sure you want to cancel this order?')) return;
+      const data = new FormData();
+      data.append('order_id', orderId);
+      data.append('cancel', 1);
+
+      fetch('orders.php', {
+        method: 'POST',
+        body: data
+      })
+      .then(res => res.json())
+      .then(result => {
+        if (result.success) {
+          alert("Order cancelled successfully!"); // ✅ Popup
+          const row = document.getElementById(`row_${orderId}`);
+          if (row) row.remove(); // ✅ Remove row from table
+        } else {
+          alert("Failed to cancel order: " + result.message);
+        }
+      })
+      .catch(() => {
+        alert("Error cancelling order.");
+      });
+    }
+
+    fetchOrders();
+  </script>
+  <div id="footer"></div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Orders Received</title>
+  <link rel="stylesheet" href="/fruit_veggie_store/assets/css/style.css">
+  <script src="/fruit_veggie_store/assets/js/navbar.js" defer></script>
+  <style>
+    table {
+      width: 80%;
+      margin-left: 10%;
+    }
+  </style>
+</head>
+<body class="seller">
+  <div id="navbar" data-role="seller"></div>
+  <br>
+  <h2>Orders Received</h2>
+  <div id="ordersTable"></div>
+  <div id="ordersMsg"></div>
+  <script>
+    function fetchOrders() {
+      fetch('orders.php')
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            document.getElementById('ordersTable').innerHTML = `<span style='color:red;'>${data.message}</span>`;
+            return;
+          }
+          let html = `<table border='1' cellpadding='10'><tr><th>Order ID</th><th>Customer</th><th>Email</th><th>Product</th><th>Category</th><th>Qty</th><th>Price</th><th>Total</th><th>Order Date</th><th>Status</th><th>Update Status</th></tr>`;
+          data.orders.forEach(order => {
+            html += `<tr>
+              <td>${order.order_id}</td>
+              <td>${order.customer}</td>
+              <td>${order.email}</td>
+              <td>${order.product}</td>
+              <td>${order.category}</td>
+              <td>${order.quantity}</td>
+              <td>₹${order.price}</td>
+              <td>₹${order.total_amount}</td>
+              <td>${order.order_date}</td>
+              <td>${order.status}</td>
+              <td>
+                <select id='status_${order.order_id}'>
+                  <option value='pending' ${order.status==='pending'?'selected':''}>Pending</option>
+                  <option value='confirmed' ${order.status==='confirmed'?'selected':''}>Confirmed</option>
+                  <option value='delivered' ${order.status==='delivered'?'selected':''}>Delivered</option>
+                </select>
+                <button onclick='updateOrderStatus(${order.order_id})'>Update</button>
+              </td>
+            </tr>`;
+          });
+          html += `</table>`;
+          document.getElementById('ordersTable').innerHTML = html;
+        });
+    }
+
+    function updateOrderStatus(orderId) {
+      const data = new FormData();
+      data.append('order_id', orderId);
+      data.append('new_status', document.getElementById('status_' + orderId).value);
+      fetch('update_status.php', {
+        method: 'POST',
+        body: data
+      })
+      .then(res => res.json())
+      .then(result => {
+        document.getElementById('ordersMsg').innerHTML = result.success ? `<span style='color:green;'>${result.message}</span>` : `<span style='color:red;'>${result.message}</span>`;
+        fetchOrders();
+      });
+    }
+
+    fetchOrders();
+  </script>
+  <div id="footer"></div>
+</body>
+</html>

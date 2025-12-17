@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Cart - Fruit & Veggie Store</title>
+  <link rel="stylesheet" href="/fruit_veggie_store/assets/css/style.css">
+  <script src="/fruit_veggie_store/assets/js/navbar.js" defer></script>
+  <style>
+    table {
+      width: 80%;
+      margin-left: 10%;
+    }
+  </style>
+</head>
+<body class="buyer">
+  <div id="navbar" data-role="buyer"></div>
+  <br>
+  <h2>My Shopping Cart</h2>
+  <div id="cartTable"></div>
+  <div id="cartMsg"></div>
+  <script>
+    function fetchCart() {
+      fetch('cart.php')
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            document.getElementById('cartTable').innerHTML = `<span style='color:red;'>${data.message}</span>`;
+            return;
+          }
+          let html = `<table border='1' cellpadding='10'><tr><th>Product</th><th>Quantity</th><th>Price</th><th>Total</th><th>Action</th></tr>`;
+          let total = 0;
+          data.cart.forEach(item => {
+            let lineTotal = item.price * item.quantity;
+            total += lineTotal;
+            html += `<tr>
+              <td>${item.name}</td>
+              <td><input type='number' min='1' value='${item.quantity}' id='qty_${item.product_id}'></td>
+              <td>₹${item.price}</td>
+              <td>₹${lineTotal}</td>
+              <td><button onclick='removeFromCart(${item.product_id})'>Remove</button></td>
+            </tr>`;
+          });
+          html += `<tr><td colspan='3'><b>Total</b></td><td>₹${total}</td><td></td></tr>`;
+          html += `</table><br><a style="text-align: centre; background-color: white"; href='checkout.html'>Proceed to Checkout</a>`;
+          document.getElementById('cartTable').innerHTML = html;
+        });
+    }
+
+    function removeFromCart(productId) {
+      const data = new FormData();
+      data.append('product_id', productId);
+      data.append('remove', 1);
+      fetch('cart.php', {
+        method: 'POST',
+        body: data
+      })
+      .then(res => res.json())
+      .then(result => {
+    if (result.success) {
+      alert("Product removed from cart successfully!"); 
+      alert("Failed to remove product: " + result.message); 
+    }
+    fetchCart(); 
+  })
+  .catch(() => {
+    alert("Error removing product from cart."); 
+  });
+    }
+
+    fetchCart();
+  </script>
+  <div id="footer"></div>
+</body>
+</html>

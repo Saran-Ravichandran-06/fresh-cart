@@ -1,0 +1,218 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+h1, h2, h4, p, a, label, td, th, button, label {
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+label{
+  font-weight: 600;
+}
+
+h2{
+  text-align: center;
+}
+
+p{
+  font-weight: 500;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+}
+
+
+body.seller::before,
+body.buyer::before,
+body.common::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(6px) brightness(0.8);
+  z-index: -1;
+}
+
+body.seller::before {
+  background-image: url("../images/seller.jpg");
+}
+
+body.buyer::before {
+  background-image: url("../images/buyer.jpg");
+}
+
+body.common::before {
+  background-image: url("../images/login.jpg");
+}
+
+
+header {
+  background: #222;
+  padding: 15px 20px;
+}
+
+.navbar {
+  background-color: #2cc15d;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar a {
+  color: black;
+  text-decoration: none;
+  margin: 0 12px;
+  font-weight: 500;
+}
+
+.navbar a:hover {
+  color: red;
+}
+
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto;
+  flex: 1;
+}
+
+
+.table-container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+}
+
+tr{
+  background: rgba(240, 240, 240, 0.5);
+}
+
+th {
+  background-color: #2cc15d;
+  color: black;
+}
+
+
+.form-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+}
+
+.form-box {
+  background: rgba(255, 255, 255, 0.5);
+  padding: 30px 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-box h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border 0.3s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #ff9800;
+  outline: none;
+}
+
+input[type="submit"] {
+  width: 100%;
+  background: #222;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background: #ff9800;
+}
+
+
+button, .btn {
+  display: inline-block;
+  padding: 10px 15px;
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover, .btn:hover {
+  background: #ff9800;
+  transition: 0.3s ease;
+}
+
+#footer {
+  margin-top: auto;
+  background: #222;
+  color: #bbb;
+  text-align: center;
+  padding: 15px 0;
+  font-size: 15px;
+  width: 100%;
+}
