@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Checkout - Fruit & Veggie Store</title>
   <link rel="stylesheet" href="/fruit_veggie_store/assets/css/style.css">
   <script src="/fruit_veggie_store/assets/js/navbar.js" defer></script>
   <style>
-    .form-container2 { 
-      width: 50%;               
-      margin: 40px auto;        
+    .form-container2 {
+      width: 50%;
+      margin: 40px auto;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .form-box2 {
-      width: 100%;              
-      background: rgba(255, 255, 255, 0.5);  
+      width: 100%;
+      background: rgba(255, 255, 255, 0.5);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-      padding: 20px 30px;       
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 20px 30px;
     }
   </style>
 </head>
+
 <body class="buyer">
-  <div id="navbar" data-role="buyer"></div>
+  <div id="sidebar-container" data-role="buyer"></div>
   <h2>Checkout</h2>
   <br>
   <div class="form-container2">
@@ -48,7 +50,7 @@
   </div>
 
   <script>
-    document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+    document.getElementById('checkoutForm').addEventListener('submit', function (e) {
       e.preventDefault();
       const form = e.target;
       const data = new FormData(form);
@@ -57,20 +59,21 @@
         method: 'POST',
         body: data
       })
-      .then(res => res.json())
-      .then(result => {
-        if (result.success) {
-          alert("Product order placed successfully!"); // ✅ Popup message
-          form.reset();
-        } else {
-          alert("Error placing order: " + result.message); // ✅ Popup error
-        }
-      })
-      .catch(() => {
-        alert("Error placing order.");
-      });
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            alert("Product order placed successfully!"); // ✅ Popup message
+            form.reset();
+          } else {
+            alert("Error placing order: " + result.message); // ✅ Popup error
+          }
+        })
+        .catch(() => {
+          alert("Error placing order.");
+        });
     });
   </script>
   <div id="footer"></div>
 </body>
+
 </html>

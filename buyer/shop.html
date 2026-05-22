@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Shop - Fruit & Veggie Store</title>
@@ -12,8 +13,9 @@
     }
   </style>
 </head>
+
 <body class="buyer">
-  <div id="navbar" data-role="buyer"></div>
+  <div id="sidebar-container" data-role="buyer"></div>
   <br>
   <h2>Available Products</h2>
   <div id="productsTable"></div>
@@ -55,19 +57,20 @@
         method: 'POST',
         body: data
       })
-      .then(res => res.json())
-      .then(result => {
-    if (result.success) {
-      alert("Product added to cart successfully!"); // ✅ Popup for success
-    } else {
-      alert("Failed to add product: " + result.message); // ✅ Popup for failure
-    }
-  })
-  .catch(err => alert("Error: " + err));
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            alert("Product added to cart successfully!"); // ✅ Popup for success
+          } else {
+            alert("Failed to add product: " + result.message); // ✅ Popup for failure
+          }
+        })
+        .catch(err => alert("Error: " + err));
     }
 
     fetchProducts();
   </script>
   <div id="footer"></div>
 </body>
+
 </html>

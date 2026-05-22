@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Orders Received</title>
@@ -12,8 +13,9 @@
     }
   </style>
 </head>
+
 <body class="seller">
-  <div id="navbar" data-role="seller"></div>
+  <div id="sidebar-container" data-role="seller"></div>
   <br>
   <h2>Orders Received</h2>
   <div id="ordersTable"></div>
@@ -42,9 +44,9 @@
               <td>${order.status}</td>
               <td>
                 <select id='status_${order.order_id}'>
-                  <option value='pending' ${order.status==='pending'?'selected':''}>Pending</option>
-                  <option value='confirmed' ${order.status==='confirmed'?'selected':''}>Confirmed</option>
-                  <option value='delivered' ${order.status==='delivered'?'selected':''}>Delivered</option>
+                  <option value='pending' ${order.status === 'pending' ? 'selected' : ''}>Pending</option>
+                  <option value='confirmed' ${order.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                  <option value='delivered' ${order.status === 'delivered' ? 'selected' : ''}>Delivered</option>
                 </select>
                 <button onclick='updateOrderStatus(${order.order_id})'>Update</button>
               </td>
@@ -63,15 +65,16 @@
         method: 'POST',
         body: data
       })
-      .then(res => res.json())
-      .then(result => {
-        document.getElementById('ordersMsg').innerHTML = result.success ? `<span style='color:green;'>${result.message}</span>` : `<span style='color:red;'>${result.message}</span>`;
-        fetchOrders();
-      });
+        .then(res => res.json())
+        .then(result => {
+          document.getElementById('ordersMsg').innerHTML = result.success ? `<span style='color:green;'>${result.message}</span>` : `<span style='color:red;'>${result.message}</span>`;
+          fetchOrders();
+        });
     }
 
     fetchOrders();
   </script>
   <div id="footer"></div>
 </body>
+
 </html>
