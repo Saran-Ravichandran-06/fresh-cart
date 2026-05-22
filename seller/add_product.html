@@ -1,78 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Add Product</title>
   <link rel="stylesheet" href="/fruit_veggie_store/assets/css/style.css">
   <script src="/fruit_veggie_store/assets/js/navbar.js" defer></script>
   <style>
-    .form-container2 { 
-  width: 50%;               
-  margin: 40px auto;        
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+    .form-container2 {
+      width: 50%;
+      margin: 40px auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-.form-box2 {
-  width: 100%;              
-  background: rgba(255, 255, 255, 0.5);  
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
-  padding: 20px 30px;       
-}
-
+    .form-box2 {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 20px 30px;
+    }
   </style>
 </head>
+
 <body class="seller">
-  <div id="navbar" data-role="seller"></div>
+  <div id="sidebar-container" data-role="seller"></div>
   <br>
   <h2>Add New Product</h2>
   <div class="form-container2">
     <div class="form-box2">
-    <form id="addProductForm">
-      <label>Product Name:</label>
-      <input type="text" name="name" required><br>
+      <form id="addProductForm">
+        <label>Product Name:</label>
+        <input type="text" name="name" required><br>
 
-      <label>Category:</label>
-      <select name="category" required>
-        <option value="fruit">Fruit</option>
-        <option value="vegetable">Vegetable</option>
-      </select><br>
+        <label>Category:</label>
+        <select name="category" required>
+          <option value="fruit">Fruit</option>
+          <option value="vegetable">Vegetable</option>
+        </select><br>
 
-      <label>Price:</label>
-      <input type="number" step="0.01" name="price" min="0" required><br>
+        <label>Price:</label>
+        <input type="number" step="0.01" name="price" min="0" required><br>
 
-      <label>Quantity:</label>
-      <input type="number" name="quantity" min="0" required><br><br>
-      <button type="submit">Add Product</button>
-    </form>
-    <br>
+        <label>Quantity:</label>
+        <input type="number" name="quantity" min="0" required><br><br>
+        <button type="submit">Add Product</button>
+      </form>
+      <br>
     </div>
-    </div>
-    <div id="addProductMsg"></div>
-    <script>
-      document.getElementById('addProductForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const form = e.target;
-        const data = new FormData(form);
-        fetch('add_product.php', {
-          method: 'POST',
-          body: data
-        })
+  </div>
+  <div id="addProductMsg"></div>
+  <script>
+    document.getElementById('addProductForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      fetch('add_product.php', {
+        method: 'POST',
+        body: data
+      })
         .then(res => res.json())
         .then(result => {
-    if (result.success) {
-      alert("Product added successfully!"); 
-    } else {
-      alert("Failed to add product: " + result.message); 
-    }
-  })
+          if (result.success) {
+            alert("Product added successfully!");
+          } else {
+            alert("Failed to add product: " + result.message);
+          }
+        })
         .catch(() => {
           document.getElementById('addProductMsg').innerHTML = `<span style='color:red;'>Error adding product.</span>`;
         });
-      });
-    </script>
+    });
+  </script>
   <div id="footer"></div>
 </body>
+
 </html>

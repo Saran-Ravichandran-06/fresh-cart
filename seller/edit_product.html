@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Edit Products</title>
@@ -12,81 +13,83 @@
     }
   </style>
 </head>
+
 <body class="seller">
-  <div id="navbar" data-role="seller"></div>
+  <div id="sidebar-container" data-role="seller"></div>
   <br>
   <h2>Manage My Products</h2>
   <div id="productsTable"></div>
   <div id="editProductMsg"></div>
   <script>
-  function fetchProducts() {
-    fetch('edit_product.php')
-      .then(res => res.json())
-      .then(data => {
-        if (!data.success) {
-          document.getElementById('productsTable').innerHTML = `<span style='color:red;'>${data.message}</span>`;
-          return;
-        }
-        let html = `<table border='1' cellpadding='10'><tr><th>Name</th><th>Category</th><th>Price</th><th>Quantity</th><th>Update</th><th>Delete</th></tr>`;
-        data.products.forEach(product => {
-          html += `<tr>
+    function fetchProducts() {
+      fetch('edit_product.php')
+        .then(res => res.json())
+        .then(data => {
+          if (!data.success) {
+            document.getElementById('productsTable').innerHTML = `<span style='color:red;'>${data.message}</span>`;
+            return;
+          }
+          let html = `<table border='1' cellpadding='10'><tr><th>Name</th><th>Category</th><th>Price</th><th>Quantity</th><th>Update</th><th>Delete</th></tr>`;
+          data.products.forEach(product => {
+            html += `<tr>
             <td><input type='text' value='${product.name}' id='name_${product.product_id}'></td>
             <td><select id='category_${product.product_id}'>
-              <option value='fruit' ${product.category==='fruit'?'selected':''}>Fruit</option>
-              <option value='vegetable' ${product.category==='vegetable'?'selected':''}>Vegetable</option>
+              <option value='fruit' ${product.category === 'fruit' ? 'selected' : ''}>Fruit</option>
+              <option value='vegetable' ${product.category === 'vegetable' ? 'selected' : ''}>Vegetable</option>
             </select></td>
             <td><input type='number' step='0.01' min='0' value='${product.price}' id='price_${product.product_id}'></td>
             <td><input type='number' min='0' value='${product.quantity}' id='quantity_${product.product_id}'></td>
             <td><button onclick='updateProduct(${product.product_id})'>Update</button></td>
             <td><button onclick='deleteProduct(${product.product_id})'>Delete</button></td>
           </tr>`;
+          });
+          html += `</table>`;
+          document.getElementById('productsTable').innerHTML = html;
         });
-        html += `</table>`;
-        document.getElementById('productsTable').innerHTML = html;
-      });
-  }
+    }
 
-  function updateProduct(id) {
-    const data = new FormData();
-    data.append('product_id', id);
-    data.append('name', document.getElementById('name_' + id).value);
-    data.append('category', document.getElementById('category_' + id).value);
-    data.append('price', document.getElementById('price_' + id).value);
-    data.append('quantity', document.getElementById('quantity_' + id).value);
+    function updateProduct(id) {
+      const data = new FormData();
+      data.append('product_id', id);
+      data.append('name', document.getElementById('name_' + id).value);
+      data.append('category', document.getElementById('category_' + id).value);
+      data.append('price', document.getElementById('price_' + id).value);
+      data.append('quantity', document.getElementById('quantity_' + id).value);
 
-    fetch('update_product.php', { method: 'POST', body: data })
-      .then(res => res.json())
-      .then(result => {
-        if (result.success) {
-          alert(result.message); 
-          fetchProducts();
-        } else {
-          alert(result.message);
-        }
-      });
-  }
+      fetch('update_product.php', { method: 'POST', body: data })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            alert(result.message);
+            fetchProducts();
+          } else {
+            alert(result.message);
+          }
+        });
+    }
 
-  function deleteProduct(id) {
-    if (!confirm('Are you sure you want to delete this product?')) return;
+    function deleteProduct(id) {
+      if (!confirm('Are you sure you want to delete this product?')) return;
 
-    const data = new FormData();
-    data.append('product_id', id);
+      const data = new FormData();
+      data.append('product_id', id);
 
-    fetch('delete_product.php', { method: 'POST', body: data })
-      .then(res => res.json())
-      .then(result => {
-        if (result.success) {
-          alert(result.message); 
-          fetchProducts();
-        } else {
-          alert(result.message);
-        }
-      });
-  }
+      fetch('delete_product.php', { method: 'POST', body: data })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            alert(result.message);
+            fetchProducts();
+          } else {
+            alert(result.message);
+          }
+        });
+    }
 
-  fetchProducts();
-</script>
+    fetchProducts();
+  </script>
 
   <div id="footer"></div>
 </body>
+
 </html>

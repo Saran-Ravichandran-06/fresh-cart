@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>My Cart - Fruit & Veggie Store</title>
@@ -12,8 +13,9 @@
     }
   </style>
 </head>
+
 <body class="buyer">
-  <div id="navbar" data-role="buyer"></div>
+  <div id="sidebar-container" data-role="buyer"></div>
   <br>
   <h2>My Shopping Cart</h2>
   <div id="cartTable"></div>
@@ -54,21 +56,22 @@
         method: 'POST',
         body: data
       })
-      .then(res => res.json())
-      .then(result => {
-    if (result.success) {
-      alert("Product removed from cart successfully!"); 
-      alert("Failed to remove product: " + result.message); 
-    }
-    fetchCart(); 
-  })
-  .catch(() => {
-    alert("Error removing product from cart."); 
-  });
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            alert("Product removed from cart successfully!");
+            alert("Failed to remove product: " + result.message);
+          }
+          fetchCart();
+        })
+        .catch(() => {
+          alert("Error removing product from cart.");
+        });
     }
 
     fetchCart();
   </script>
   <div id="footer"></div>
 </body>
+
 </html>

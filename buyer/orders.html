@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>My Orders - Fruit & Veggie Store</title>
@@ -10,13 +11,15 @@
       width: 80%;
       margin-left: 10%;
     }
+
     a {
       text-decoration: none;
     }
   </style>
 </head>
+
 <body class="buyer">
-  <div id="navbar" data-role="buyer"></div>
+  <div id="sidebar-container" data-role="buyer"></div>
   <br>
   <h2>My Orders</h2>
   <div id="ordersTable"></div>
@@ -38,8 +41,8 @@
                       <td>₹${order.total_amount}</td>
                       <td>${order.status}</td>
                       <td><a href='order_details.php?id=${order.order_id}'>View</a></td>
-                      <td>${order.status==='pending' ? 
-                        `<button onclick='cancelOrder(${order.order_id})'>Cancel</button>` : ''}</td>
+                      <td>${order.status === 'pending' ?
+                `<button onclick='cancelOrder(${order.order_id})'>Cancel</button>` : ''}</td>
                     </tr>`;
           });
           html += `</table>`;
@@ -57,23 +60,24 @@
         method: 'POST',
         body: data
       })
-      .then(res => res.json())
-      .then(result => {
-        if (result.success) {
-          alert("Order cancelled successfully!"); // ✅ Popup
-          const row = document.getElementById(`row_${orderId}`);
-          if (row) row.remove(); // ✅ Remove row from table
-        } else {
-          alert("Failed to cancel order: " + result.message);
-        }
-      })
-      .catch(() => {
-        alert("Error cancelling order.");
-      });
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            alert("Order cancelled successfully!"); // ✅ Popup
+            const row = document.getElementById(`row_${orderId}`);
+            if (row) row.remove(); // ✅ Remove row from table
+          } else {
+            alert("Failed to cancel order: " + result.message);
+          }
+        })
+        .catch(() => {
+          alert("Error cancelling order.");
+        });
     }
 
     fetchOrders();
   </script>
   <div id="footer"></div>
 </body>
+
 </html>
