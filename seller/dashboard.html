@@ -9,62 +9,81 @@
   <style>
     .dashboard-header {
       text-align: center;
-      margin-top: 40px;
-      margin-bottom: 40px;
+      margin-top: 50px;
+      margin-bottom: 50px;
     }
 
-    p {
-      font-size: 16px;
+    .dashboard-header h2 {
+      font-size: 2.2rem;
+      color: #1b4332;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .dashboard-header p {
+      font-size: 1.1rem;
+      color: #444;
     }
 
     .dashboard-cards {
       display: flex;
       justify-content: center;
-      gap: 40px;
+      gap: 35px;
       flex-wrap: wrap;
       margin-bottom: 60px;
+      padding: 0 20px;
     }
 
     .dashboard-card {
-      background: rgba(255, 255, 255, 0.7);
-      padding: 40px 30px;
-      border-radius: 15px;
-      width: 320px;
+      background: rgba(255, 255, 255, 0.65);
+      padding: 45px 30px;
+      border-radius: 20px;
+      width: 340px;
       text-align: center;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      backdrop-filter: blur(5px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
     }
 
     .dashboard-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transform: translateY(-10px);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, 0.12);
+      background: rgba(255, 255, 255, 0.85);
+      border-color: rgba(255, 255, 255, 0.9);
     }
 
     .dashboard-card h3 {
-      margin-bottom: 12px;
-      color: #1b5e20;
-      font-size: 1.4rem;
+      margin-bottom: 15px;
+      color: #1b4332;
+      font-size: 1.5rem;
+      font-weight: 600;
     }
 
     .dashboard-card p {
-      font-size: 15px;
-      color: #333;
-      margin-bottom: 20px;
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 25px;
+      line-height: 1.5;
     }
 
     .dashboard-card a {
+      display: inline-block;
       text-decoration: none;
-      padding: 10px 25px;
-      background: #2e7d32;
+      padding: 12px 30px;
+      background: #2cc15d;
       color: #fff;
-      border-radius: 8px;
+      border-radius: 10px;
       font-weight: 500;
-      transition: background 0.3s;
+      box-shadow: 0 4px 15px rgba(44, 193, 93, 0.3);
+      transition: all 0.3s ease;
     }
 
     .dashboard-card a:hover {
-      background: #43a047;
+      background: #24a14d;
+      box-shadow: 0 6px 20px rgba(44, 193, 93, 0.4);
+      transform: translateY(-2px);
     }
   </style>
 </head>
