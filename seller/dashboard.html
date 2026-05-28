@@ -13,58 +13,72 @@
       margin-bottom: 40px;
     }
 
+    .dashboard-header h2 {
+      color: #1f2937;
+    }
+
     p {
       font-size: 16px;
+      color: #1f2937;
     }
 
     .dashboard-cards {
       display: flex;
       justify-content: center;
-      gap: 40px;
+      gap: 35px;
       flex-wrap: wrap;
       margin-bottom: 60px;
+      padding: 0 20px;
     }
 
     .dashboard-card {
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.72);
       padding: 40px 30px;
-      border-radius: 15px;
+      border-radius: 16px;
       width: 320px;
       text-align: center;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      backdrop-filter: blur(5px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      transition: all 0.35s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
     }
 
     .dashboard-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      transform: translateY(-6px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      background: rgba(255, 255, 255, 0.85);
     }
 
     .dashboard-card h3 {
       margin-bottom: 12px;
-      color: #1b5e20;
+      color: #243b2f;
       font-size: 1.4rem;
+      font-weight: 600;
     }
 
     .dashboard-card p {
-      font-size: 15px;
-      color: #333;
+      font-size: 0.95rem;
+      color: #6b7280;
       margin-bottom: 20px;
+      line-height: 1.5;
     }
 
     .dashboard-card a {
+      display: inline-block;
       text-decoration: none;
-      padding: 10px 25px;
-      background: #2e7d32;
+      padding: 10px 28px;
+      background: #4f8a5b;
       color: #fff;
       border-radius: 8px;
       font-weight: 500;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(79, 138, 91, 0.2);
     }
 
     .dashboard-card a:hover {
-      background: #43a047;
+      background: #3d7049;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(79, 138, 91, 0.3);
     }
   </style>
 </head>

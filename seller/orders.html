@@ -26,10 +26,24 @@
         .then(res => res.json())
         .then(data => {
           if (!data.success) {
-            document.getElementById('ordersTable').innerHTML = `<span style='color:red;'>${data.message}</span>`;
+            document.getElementById('ordersTable').innerHTML = `
+              <div class="empty-state">
+                <div class="empty-state-icon">⚠️</div>
+                <h3>Unable to Load Orders</h3>
+                <p>${data.message}</p>
+              </div>`;
             return;
           }
-          let html = `<table border='1' cellpadding='10'><tr><th>Order ID</th><th>Customer</th><th>Email</th><th>Product</th><th>Category</th><th>Qty</th><th>Price</th><th>Total</th><th>Order Date</th><th>Status</th><th>Update Status</th></tr>`;
+          if (data.orders.length === 0) {
+            document.getElementById('ordersTable').innerHTML = `
+              <div class="empty-state">
+                <div class="empty-state-icon">📭</div>
+                <h3>No Orders Received Yet</h3>
+                <p>You haven't received any orders from buyers yet. Once a buyer places an order for your products, it will appear here.</p>
+              </div>`;
+            return;
+          }
+          let html = `<table><tr><th>Order ID</th><th>Customer</th><th>Email</th><th>Product</th><th>Category</th><th>Qty</th><th>Price</th><th>Total</th><th>Order Date</th><th>Status</th><th>Update Status</th></tr>`;
           data.orders.forEach(order => {
             html += `<tr>
               <td>${order.order_id}</td>
