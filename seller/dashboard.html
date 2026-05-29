@@ -6,108 +6,87 @@
   <title>Seller Dashboard - Fruit & Veggie Store</title>
   <link rel="stylesheet" href="/fruit_veggie_store/assets/css/style.css">
   <script src="/fruit_veggie_store/assets/js/navbar.js" defer></script>
-  <style>
-    .dashboard-header {
-      text-align: center;
-      margin-top: 50px;
-      margin-bottom: 50px;
-    }
-
-    .dashboard-header h2 {
-      color: #1f2937;
-    }
-
-    p {
-      font-size: 16px;
-      color: #1f2937;
-    }
-
-    .dashboard-cards {
-      display: flex;
-      justify-content: center;
-      gap: 35px;
-      flex-wrap: wrap;
-      margin-bottom: 60px;
-      padding: 0 20px;
-    }
-
-    .dashboard-card {
-      background: rgba(255, 255, 255, 0.72);
-      padding: 40px 30px;
-      border-radius: 16px;
-      width: 320px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-      transition: all 0.35s ease;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-    }
-
-    .dashboard-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      background: rgba(255, 255, 255, 0.85);
-    }
-
-    .dashboard-card h3 {
-      margin-bottom: 12px;
-      color: #243b2f;
-      font-size: 1.4rem;
-      font-weight: 600;
-    }
-
-    .dashboard-card p {
-      font-size: 0.95rem;
-      color: #6b7280;
-      margin-bottom: 20px;
-      line-height: 1.5;
-    }
-
-    .dashboard-card a {
-      display: inline-block;
-      text-decoration: none;
-      padding: 10px 28px;
-      color: #fff;
-      border-radius: 10px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      box-shadow: 0 3px 10px rgba(79, 138, 91, 0.2);
-    }
-
-    .dashboard-card a:hover {
-      background: #3d7049;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(79, 138, 91, 0.3);
-    }
-  </style>
 </head>
 
 <body class="seller">
   <div id="sidebar-container" data-role="seller"></div>
-  <div class="dashboard-header">
-    <h2>Seller Dashboard</h2>
-    <p>Welcome! Manage your products and track your orders efficiently.</p>
-  </div>
 
-  <div class="dashboard-cards">
-    <div class="dashboard-card">
-      <h3>🛒 Add Product</h3>
-      <p>Add new fruits or vegetables to your store listing.</p>
-      <a href="add_product.html">Go</a>
-    </div>
+  <main class="dashboard-shell">
+    <section class="dashboard-hero">
+      <h2>Seller Dashboard</h2>
+      <p>Monitor produce listings, incoming orders, and fulfillment work without leaving the dashboard.</p>
+    </section>
 
-    <div class="dashboard-card">
-      <h3>🛠️ Edit Products</h3>
-      <p>Update product details, change pricing, or mark as unavailable.</p>
-      <a href="edit_product.html">Go</a>
-    </div>
+    <section class="stat-grid" aria-label="Seller dashboard statistics">
+      <article class="stat-card">
+        <div>
+          <div class="stat-label">Products Listed</div>
+          <div class="stat-value" id="productCount">--</div>
+          <p class="stat-help">Active fruit and vegetable listings.</p>
+        </div>
+        <a href="edit_product.html">Manage products</a>
+      </article>
 
-    <div class="dashboard-card">
-      <h3>👁️ View Orders</h3>
-      <p>View customer orders and update their order status.</p>
-      <a href="orders.html">Go</a>
-    </div>
-  </div>
+      <article class="stat-card">
+        <div>
+          <div class="stat-label">Total Orders</div>
+          <div class="stat-value" id="totalOrders">--</div>
+          <p class="stat-help">Customer orders received by your store.</p>
+        </div>
+        <a href="orders.html">View orders</a>
+      </article>
+
+      <article class="stat-card">
+        <div>
+          <div class="stat-label">Pending Orders</div>
+          <div class="stat-value" id="pendingOrders">--</div>
+          <p class="stat-help">Orders waiting for confirmation or delivery.</p>
+        </div>
+        <a href="orders.html">Update status</a>
+      </article>
+
+      <article class="stat-card">
+        <div>
+          <div class="stat-label">Recent Activity</div>
+          <ul class="activity-list" id="recentActivity">
+            <li>Loading store activity...</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <nav class="quick-actions" aria-label="Quick actions">
+      <a class="btn" href="add_product.html">Add Product</a>
+      <a class="btn" href="edit_product.html">Manage Products</a>
+      <a class="btn" href="orders.html">Orders Received</a>
+    </nav>
+  </main>
+
+  <script>
+    const formatNumber = value => Number.isFinite(value) ? value : 0;
+
+    Promise.allSettled([
+      fetch('edit_product.php').then(res => res.json()),
+      fetch('orders.php').then(res => res.json())
+    ]).then(([productsResult, ordersResult]) => {
+      const products = productsResult.status === 'fulfilled' && productsResult.value.success ? productsResult.value.products || [] : [];
+      const orders = ordersResult.status === 'fulfilled' && ordersResult.value.success ? ordersResult.value.orders || [] : [];
+      const pendingOrders = orders.filter(order => order.status === 'pending').length;
+      const lowStock = products.filter(product => Number(product.quantity || 0) <= 5).length;
+
+      document.getElementById('productCount').textContent = formatNumber(products.length);
+      document.getElementById('totalOrders').textContent = formatNumber(orders.length);
+      document.getElementById('pendingOrders').textContent = formatNumber(pendingOrders);
+
+      const recent = [];
+      if (orders.length > 0) recent.push(`Latest order: ${orders[0].product || 'Fresh produce'} (${orders[0].status})`);
+      if (pendingOrders > 0) recent.push(`${pendingOrders} order${pendingOrders === 1 ? '' : 's'} need attention`);
+      if (lowStock > 0) recent.push(`${lowStock} listing${lowStock === 1 ? '' : 's'} running low on stock`);
+      if (recent.length === 0) recent.push('Add products to start receiving marketplace orders');
+
+      document.getElementById('recentActivity').innerHTML = recent.slice(0, 3).map(item => `<li>${item}</li>`).join('');
+    });
+  </script>
 
   <div id="footer"></div>
 </body>

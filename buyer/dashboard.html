@@ -6,95 +6,87 @@
   <title>Buyer Dashboard - Fruit & Veggie Store</title>
   <link rel="stylesheet" href="/fruit_veggie_store/assets/css/style.css">
   <script src="/fruit_veggie_store/assets/js/navbar.js" defer></script>
-  <style>
-    .dashboard-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 35px;
-      margin: 50px auto;
-      flex-wrap: wrap;
-      width: 90%;
-    }
-
-    .dashboard-box {
-      background: rgba(255, 255, 255, 0.72);
-      border-radius: 16px;
-      padding: 40px 30px;
-      width: 280px;
-      text-align: center;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-      transition: all 0.35s ease;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.5);
-    }
-
-    .dashboard-box:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      background: rgba(255, 255, 255, 0.85);
-    }
-
-    .dashboard-box h3 {
-      margin-bottom: 15px;
-      color: #243b2f;
-      font-size: 1.3rem;
-      font-weight: 600;
-    }
-
-    .dashboard-box p {
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-      color: #6b7280;
-      line-height: 1.5;
-    }
-
-    .dashboard-box a {
-      display: inline-block;
-      text-decoration: none;
-      background: #4f8a5b;
-      color: #fff;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      box-shadow: 0 3px 10px rgba(79, 138, 91, 0.2);
-    }
-
-    .dashboard-box a:hover {
-      background: #3d7049;
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(79, 138, 91, 0.3);
-    }
-  </style>
 </head>
 
 <body class="buyer">
   <div id="sidebar-container" data-role="buyer"></div>
-  <br>
-  <h2>Welcome to Your Buyer Dashboard</h2>
-  <p style="text-align:center; color:#333;">Easily manage your shopping experience, from browsing to tracking your
-    orders.</p>
 
-  <div class="dashboard-container">
-    <div class="dashboard-box">
-      <h3>🛍️ Shop Products</h3>
-      <p>Explore fresh fruits and vegetables directly from trusted sellers.</p>
-      <a href="shop.html">Go to Shop</a>
-    </div>
+  <main class="dashboard-shell">
+    <section class="dashboard-hero">
+      <h2>Buyer Dashboard</h2>
+      <p>Track your cart, orders, and fresh marketplace activity from one clean workspace.</p>
+    </section>
 
-    <div class="dashboard-box">
-      <h3>🛒 My Cart</h3>
-      <p>Review the products in your cart and proceed to checkout securely.</p>
-      <a href="cart.html">View Cart</a>
-    </div>
+    <section class="stat-grid" aria-label="Buyer dashboard statistics">
+      <article class="stat-card">
+        <div>
+          <div class="stat-label">Cart Items</div>
+          <div class="stat-value" id="cartItems">--</div>
+          <p class="stat-help">Products currently waiting in your cart.</p>
+        </div>
+        <a href="cart.html">Review cart</a>
+      </article>
 
-    <div class="dashboard-box">
-      <h3>📦 My Orders</h3>
-      <p>Track your current and past orders with live status updates.</p>
-      <a href="orders.html">View Orders</a>
-    </div>
-  </div>
+      <article class="stat-card">
+        <div>
+          <div class="stat-label">Total Orders</div>
+          <div class="stat-value" id="totalOrders">--</div>
+          <p class="stat-help">Orders placed through Fresh Cart.</p>
+        </div>
+        <a href="orders.html">View orders</a>
+      </article>
+
+      <article class="stat-card">
+        <div>
+          <div class="stat-label">Pending Orders</div>
+          <div class="stat-value" id="pendingOrders">--</div>
+          <p class="stat-help">Orders still awaiting seller confirmation.</p>
+        </div>
+        <a href="orders.html">Track status</a>
+      </article>
+
+      <article class="stat-card">
+        <div>
+          <div class="stat-label">Recent Activity</div>
+          <ul class="activity-list" id="recentActivity">
+            <li>Loading marketplace activity...</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+
+    <nav class="quick-actions" aria-label="Quick actions">
+      <a class="btn" href="shop.html">Browse Products</a>
+      <a class="btn" href="cart.html">Open Cart</a>
+      <a class="btn" href="orders.html">Order History</a>
+    </nav>
+  </main>
+
+  <script>
+    const formatNumber = value => Number.isFinite(value) ? value : 0;
+
+    Promise.allSettled([
+      fetch('cart.php').then(res => res.json()),
+      fetch('orders.php').then(res => res.json())
+    ]).then(([cartResult, ordersResult]) => {
+      const cartData = cartResult.status === 'fulfilled' && cartResult.value.success ? cartResult.value.cart || [] : [];
+      const ordersData = ordersResult.status === 'fulfilled' && ordersResult.value.success ? ordersResult.value.orders || [] : [];
+      const cartItems = cartData.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+      const pendingOrders = ordersData.filter(order => order.status === 'pending').length;
+
+      document.getElementById('cartItems').textContent = formatNumber(cartItems);
+      document.getElementById('totalOrders').textContent = formatNumber(ordersData.length);
+      document.getElementById('pendingOrders').textContent = formatNumber(pendingOrders);
+
+      const recent = [];
+      if (cartItems > 0) recent.push(`${cartItems} fresh item${cartItems === 1 ? '' : 's'} ready for checkout`);
+      if (ordersData.length > 0) recent.push(`Latest order status: ${ordersData[0].status}`);
+      if (pendingOrders > 0) recent.push(`${pendingOrders} order${pendingOrders === 1 ? '' : 's'} pending seller review`);
+      if (recent.length === 0) recent.push('Start shopping to build your first fresh cart');
+
+      document.getElementById('recentActivity').innerHTML = recent.slice(0, 3).map(item => `<li>${item}</li>`).join('');
+    });
+  </script>
 
   <div id="footer"></div>
 </body>

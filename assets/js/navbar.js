@@ -109,7 +109,7 @@ function createMobileMenuBtn() {
   const btn = document.createElement("button");
   btn.id = "mobileMenuBtn";
   btn.className = "mobile-menu-btn";
-  btn.innerHTML = "☰";
+  btn.innerHTML = "&#9776;";
   btn.onclick = function () {
     const sidebar = document.getElementById("sidebar");
     if (sidebar) {
@@ -152,7 +152,7 @@ function createTopHeader(role) {
   header.innerHTML = `
     <h2>${pageTitle}</h2>
     <div class="top-header-info">
-      <span>🌿 ${roleLabel} Account</span>
+      <span>Fresh Cart &middot; ${roleLabel} Account</span>
     </div>
   `;
   
