@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
           sidebarDiv.innerHTML = html;
           document.body.classList.add("has-sidebar");
 
+          // Inject Top Header dynamically
+          createTopHeader(role);
+
           // Add tooltips for collapsed state
           const links = document.querySelectorAll(".sidebar-link");
           links.forEach(link => {
@@ -134,4 +137,29 @@ function createMobileOverlay() {
     overlay.classList.remove("active");
   };
   document.body.appendChild(overlay);
+}
+
+function createTopHeader(role) {
+  if (document.querySelector(".top-header")) return;
+  
+  const header = document.createElement("header");
+  header.className = "top-header";
+  
+  // Derive page title from the document <title> or <h2>
+  const pageTitle = document.title.split(' - ')[0] || (role === 'buyer' ? 'Buyer Portal' : 'Seller Dashboard');
+  const roleLabel = role === 'buyer' ? 'Buyer' : 'Seller';
+  
+  header.innerHTML = `
+    <h2>${pageTitle}</h2>
+    <div class="top-header-info">
+      <span>🌿 ${roleLabel} Account</span>
+    </div>
+  `;
+  
+  const sidebarContainer = document.getElementById("sidebar-container");
+  if (sidebarContainer && sidebarContainer.nextSibling) {
+    sidebarContainer.parentNode.insertBefore(header, sidebarContainer.nextSibling);
+  } else {
+    document.body.insertBefore(header, document.body.firstChild);
+  }
 }

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 * {
   margin: 0;
   padding: 0;
@@ -10,6 +8,8 @@ html,
 body {
   height: 100%;
 }
+
+
 
 label {
   font-weight: 600;
@@ -24,8 +24,8 @@ p {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
-  color: #333;
+  font-family: 'Poppins', "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #1f2937;
   line-height: 1.6;
   min-height: 100vh;
   display: flex;
@@ -34,18 +34,6 @@ body {
   overflow-x: hidden;
 }
 
-
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.45);
-  z-index: -1;
-  pointer-events: none;
-}
 
 body.seller::before,
 body.buyer::before,
@@ -58,7 +46,7 @@ body.common::before {
   height: 100%;
   background-size: cover;
   background-position: center;
-  filter: blur(3px) brightness(1.0);
+  filter: blur(4px) brightness(0.95);
   z-index: -2;
 }
 
@@ -76,27 +64,34 @@ body.common::before {
 
 
 header {
-  background: #222;
-  padding: 15px 20px;
-}
-
-.navbar {
-  background-color: #2cc15d;
-  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 0 20px;
+  height: 64px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
+.navbar {
+  background-color: transparent;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 64px;
+}
+
 .navbar a {
-  color: black;
+  color: #1f2937;
   text-decoration: none;
   margin: 0 12px;
   font-weight: 500;
 }
 
 .navbar a:hover {
-  color: red;
+  color: #4f8a5b;
 }
 
 
@@ -110,13 +105,13 @@ header {
   left: 0;
   width: 260px;
   height: 100vh;
-  background: linear-gradient(180deg, #1b4332 0%, #081c15 100%);
+  background: #243b2f;
   z-index: 1000;
   display: flex;
   flex-direction: column;
   transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
     transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.35);
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
   overflow: hidden;
 }
 
@@ -142,12 +137,12 @@ header {
 }
 
 .sidebar-toggle:hover {
-  background: rgba(44, 193, 93, 0.25);
+  background: rgba(79, 138, 91, 0.25);
   transform: scale(1.08);
 }
 
 .sidebar-toggle .toggle-icon {
-  color: #a8e6c3;
+  color: #b8d4c8;
   font-size: 18px;
   transition: transform 0.3s ease;
 }
@@ -171,11 +166,15 @@ header {
 }
 
 .sidebar-header {
-  padding: 20px 16px 16px;
+  padding: 0 16px;
   text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   margin-bottom: 8px;
   flex-shrink: 0;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .sidebar-logo {
@@ -183,8 +182,8 @@ header {
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid rgba(44, 193, 93, 0.5);
-  box-shadow: 0 4px 16px rgba(44, 193, 93, 0.25);
+  border: 3px solid rgba(79, 138, 91, 0.4);
+  box-shadow: 0 4px 16px rgba(79, 138, 91, 0.2);
   margin-bottom: 12px;
   margin-top: 30px;
   transition: width 0.3s ease, height 0.3s ease, margin 0.3s ease, opacity 0.3s ease;
@@ -199,11 +198,11 @@ header {
 }
 
 .sidebar-title {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  color: #a8e6c3;
+  color: #ffffff;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
+  text-transform: capitalize;
   white-space: nowrap;
   overflow: hidden;
   transition: opacity 0.25s ease, font-size 0.25s ease;
@@ -230,7 +229,7 @@ header {
   align-items: center;
   gap: 14px;
   padding: 12px 14px;
-  color: #c8e6d4;
+  color: #c5d8cd;
   text-decoration: none;
   border-radius: 10px;
   font-size: 0.95rem;
@@ -248,17 +247,16 @@ header {
   top: 0;
   width: 3px;
   height: 100%;
-  background: #2cc15d;
+  background: #4f8a5b;
   border-radius: 0 4px 4px 0;
   transform: scaleY(0);
   transition: transform 0.25s ease;
 }
 
 .sidebar-link:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(79, 138, 91, 0.15);
   color: #ffffff;
-  transform: translateX(5px);
-  text-shadow: none;
+  transform: translateX(4px);
 }
 
 .sidebar-link:hover::before {
@@ -266,10 +264,10 @@ header {
 }
 
 .sidebar-link.active {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(79, 138, 91, 0.2);
   color: #ffffff;
   font-weight: 600;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(79, 138, 91, 0.15);
 }
 
 .sidebar-link.active::before {
@@ -287,7 +285,6 @@ header {
 .sidebar-text {
   overflow: hidden;
   transition: opacity 0.25s ease, width 0.25s ease;
-  text-shadow: none;
 }
 
 .sidebar.collapsed .sidebar-text {
@@ -330,7 +327,7 @@ header {
   left: calc(100% + 12px);
   top: 50%;
   transform: translateY(-50%);
-  background: #1a3a2a;
+  background: #243b2f;
   color: #ffffff;
   padding: 6px 14px;
   border-radius: 6px;
@@ -372,6 +369,44 @@ body.has-sidebar .navbar {
   display: none;
 }
 
+/* ===========================
+   TOP HEADER
+   =========================== */
+
+.top-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  z-index: 900;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.04);
+}
+
+.top-header h2 {
+  font-size: 1.25rem;
+  color: #1f2937;
+  margin: 0;
+  font-weight: 600;
+  text-align: left;
+}
+
+.top-header-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 0.95rem;
+  color: #1f2937;
+}
+
 
 .container {
   width: 90%;
@@ -382,37 +417,44 @@ body.has-sidebar .navbar {
 
 
 .table-container {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.85);
   padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
-}
-
-table,
-th,
-td {
-  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 th,
 td {
-  padding: 12px;
-  text-align: center;
+  padding: 16px;
+  text-align: left;
+  border-bottom: 1px solid #eaeaea;
 }
 
 tr {
-  background: rgba(240, 240, 240, 0.5);
+  background: rgba(255, 255, 255, 0.6);
+  transition: background 0.3s ease;
+}
+
+tr:hover {
+  background: rgba(255, 255, 255, 0.9);
 }
 
 th {
-  background-color: #2cc15d;
-  color: black;
+  background-color: #e8f5e9;
+  color: #1f2937;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
 }
 
 
@@ -425,10 +467,11 @@ th {
 }
 
 .form-box {
-  background: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.72);
   padding: 30px 25px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
   width: 100%;
   max-width: 400px;
 }
@@ -436,7 +479,7 @@ th {
 .form-box h2 {
   text-align: center;
   margin-bottom: 20px;
-  color: #222;
+  color: #1f2937;
 }
 
 input[type="text"],
@@ -446,64 +489,112 @@ input[type="password"],
 textarea,
 select {
   width: 100%;
-  padding: 10px;
+  padding: 12px 16px;
   margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  transition: border 0.3s ease;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
 }
 
 input:focus,
 textarea:focus,
 select:focus {
-  border-color: #ff9800;
+  border-color: #4f8a5b;
   outline: none;
+  box-shadow: 0 0 0 3px rgba(79, 138, 91, 0.2);
 }
 
 input[type="submit"] {
   width: 100%;
-  background: #222;
+  background: #4f8a5b;
   color: #fff;
   border: none;
-  padding: 12px;
-  border-radius: 6px;
+  padding: 14px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 500;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(79, 138, 91, 0.2);
 }
 
 input[type="submit"]:hover {
-  background: #ff9800;
+  background: #3d7049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 138, 91, 0.3);
 }
 
 
 button,
 .btn {
   display: inline-block;
-  padding: 10px 15px;
-  background: #222;
+  padding: 12px 20px;
+  background: #4f8a5b;
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  width: 100%;
+  width: auto;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(79, 138, 91, 0.15);
 }
 
 button:hover,
 .btn:hover {
-  background: #ff9800;
-  transition: 0.3s ease;
+  background: #3d7049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(79, 138, 91, 0.25);
 }
 
 #footer {
   margin-top: auto;
-  background: #222;
-  color: #bbb;
+  background: #000000;
+  color: #999999;
   text-align: center;
   padding: 15px 0;
-  font-size: 15px;
+  font-size: 14px;
   width: 100%;
+}
+
+/* ===========================
+   EMPTY STATE BOX
+   =========================== */
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 30px;
+  margin: 40px auto;
+  max-width: 480px;
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
+
+.empty-state h3 {
+  font-size: 1.3rem;
+  color: #1f2937;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 0.95rem;
+  color: #6b7280;
+  line-height: 1.5;
 }
 
 /* ===========================
@@ -542,7 +633,7 @@ button:hover,
     z-index: 999;
     width: 42px;
     height: 42px;
-    background: linear-gradient(135deg, #1a3a2a, #2cc15d);
+    background: linear-gradient(135deg, #243b2f, #4f8a5b);
     border: none;
     border-radius: 10px;
     align-items: center;

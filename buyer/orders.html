@@ -30,10 +30,24 @@
         .then(res => res.json())
         .then(data => {
           if (!data.success) {
-            document.getElementById('ordersTable').innerHTML = `<span style='color:red;'>${data.message}</span>`;
+            document.getElementById('ordersTable').innerHTML = `
+              <div class="empty-state">
+                <div class="empty-state-icon">⚠️</div>
+                <h3>Unable to Load Orders</h3>
+                <p>${data.message}</p>
+              </div>`;
             return;
           }
-          let html = `<table border='1' cellpadding='10'>
+          if (data.orders.length === 0) {
+            document.getElementById('ordersTable').innerHTML = `
+              <div class="empty-state">
+                <div class="empty-state-icon">📦</div>
+                <h3>No Orders Placed Yet</h3>
+                <p>You haven't placed any orders yet. Head over to the shop to browse fresh fruits and vegetables!</p>
+              </div>`;
+            return;
+          }
+          let html = `<table>
                         <tr><th>Order ID</th><th>Total</th><th>Status</th><th>Details</th><th>Action</th></tr>`;
           data.orders.forEach(order => {
             html += `<tr id="row_${order.order_id}">

@@ -26,7 +26,11 @@
         .then(res => res.json())
         .then(data => {
           if (!data.success) {
-            document.getElementById('cartTable').innerHTML = `<span style='color:red;'>${data.message}</span>`;
+            document.getElementById('cartTable').innerHTML = `<div class="empty-state"><div class="empty-state-icon">🛒</div><h3>Error Loading Cart</h3><p>${data.message}</p></div>`;
+            return;
+          }
+          if (!data.cart || data.cart.length === 0) {
+            document.getElementById('cartTable').innerHTML = `<div class="empty-state"><div class="empty-state-icon">🛒</div><h3>No Items in Cart Yet</h3><p>Your cart is empty. Head over to the shop to add fresh fruits and vegetables!</p></div>`;
             return;
           }
           let html = `<table border='1' cellpadding='10'><tr><th>Product</th><th>Quantity</th><th>Price</th><th>Total</th><th>Action</th></tr>`;
