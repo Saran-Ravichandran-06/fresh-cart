@@ -50,13 +50,32 @@
           let html = `<table>
                         <tr><th>Order ID</th><th>Total</th><th>Status</th><th>Details</th><th>Action</th></tr>`;
           data.orders.forEach(order => {
+            let actionHtml = '';
+            let statusBadge = `<span style="padding: 6px 12px; border-radius: 6px; font-weight: 600;`;
+            
+            if (order.status === 'pending') {
+              statusBadge += `background: #fef3c7; color: #92400e;">⏳ Pending</span>`;
+              actionHtml = `<button onclick='cancelOrder(${order.order_id})' style="background: #ef4444; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer;">Cancel</button>`;
+            } else if (order.status === 'confirmed') {
+              statusBadge += `background: #bfdbfe; color: #1e3a8a;">✓ Confirmed</span>`;
+              actionHtml = `<span style="color: #059669; font-weight: 600;">Processing</span>`;
+            } else if (order.status === 'delivered') {
+              statusBadge += `background: #dcfce7; color: #166534;">✔ Delivered</span>`;
+              actionHtml = `<span style="color: #059669; font-weight: 600;">Completed</span>`;
+            } else if (order.status === 'cancelled') {
+              statusBadge += `background: #fee2e2; color: #991b1b;">✕ Cancelled</span>`;
+              actionHtml = `<span style="color: #dc2626; font-weight: 600;">--</span>`;
+            } else {
+              statusBadge += `background: #e5e7eb; color: #374151;">Status</span>`;
+              actionHtml = `<span>--</span>`;
+            }
+            
             html += `<tr id="row_${order.order_id}">
                       <td>${order.order_id}</td>
                       <td>₹${order.total_amount}</td>
-                      <td>${order.status}</td>
+                      <td>${statusBadge}</td>
                       <td><a href='order_details.php?id=${order.order_id}'>View</a></td>
-                      <td>${order.status === 'pending' ?
-                `<button onclick='cancelOrder(${order.order_id})'>Cancel</button>` : ''}</td>
+                      <td>${actionHtml}</td>
                     </tr>`;
           });
           html += `</table>`;
@@ -77,9 +96,9 @@
         .then(res => res.json())
         .then(result => {
           if (result.success) {
-            alert("Order cancelled successfully!"); // ✅ Popup
+            alert("Order cancelled successfully!");
             const row = document.getElementById(`row_${orderId}`);
-            if (row) row.remove(); // ✅ Remove row from table
+            if (row) row.remove();
           } else {
             alert("Failed to cancel order: " + result.message);
           }
