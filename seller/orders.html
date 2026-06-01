@@ -22,9 +22,7 @@
 <body class="seller">
   <div id="sidebar-container" data-role="seller"></div>
   <br>
-  <h2>Orders Received</h2>
-  <div id="ordersTable"></div>
-  <div id="ordersMsg"></div>
+  <div id="ordersTable" style="width: 94% !important; max-width: none !important;"></div>
   <script>
     function fetchOrders() {
       fetch('orders.php')
@@ -86,7 +84,7 @@
       })
         .then(res => res.json())
         .then(result => {
-          document.getElementById('ordersMsg').innerHTML = result.success ? `<span style='color:green;'>${result.message}</span>` : `<span style='color:red;'>${result.message}</span>`;
+          alert(result.message);
           fetchOrders();
         });
     }

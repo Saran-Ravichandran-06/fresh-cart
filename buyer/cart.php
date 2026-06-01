@@ -10,7 +10,7 @@ if (!isset($_SESSION['cart'])) {
 
 $response = ["success" => false, "cart" => []];
 
-QUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isset($_POST['quantity'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id']) && isset($_POST['quantity'])) {
     $id = intval($_POST['product_id']);
     $qty = intval($_POST['quantity']);
     if ($qty > 0) {
