@@ -61,10 +61,10 @@
               actionHtml = `<span style="color: #059669; font-weight: 600;">Processing</span>`;
             } else if (order.status === 'delivered') {
               statusBadge += `background: #dcfce7; color: #166534;">✔ Delivered</span>`;
-              actionHtml = `<span style="color: #059669; font-weight: 600;">Completed</span>`;
+              actionHtml = `<button onclick='deleteOrder(${order.order_id})' style="background: #6b7280; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer;">Remove</button>`;
             } else if (order.status === 'cancelled') {
               statusBadge += `background: #fee2e2; color: #991b1b;">✕ Cancelled</span>`;
-              actionHtml = `<span style="color: #dc2626; font-weight: 600;">--</span>`;
+              actionHtml = `<button onclick='deleteOrder(${order.order_id})' style="background: #6b7280; color: white; padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer;">Remove</button>`;
             } else {
               statusBadge += `background: #e5e7eb; color: #374151;">Status</span>`;
               actionHtml = `<span>--</span>`;
@@ -105,6 +105,40 @@
         })
         .catch(() => {
           alert("Error cancelling order.");
+        });
+    }
+
+    function deleteOrder(orderId) {
+      if (!confirm('Are you sure you want to remove this order from your list?')) return;
+      const data = new FormData();
+      data.append('order_id', orderId);
+      data.append('delete', 1);
+
+      fetch('orders.php', {
+        method: 'POST',
+        body: data
+      })
+        .then(res => res.json())
+        .then(result => {
+          if (result.success) {
+            const row = document.getElementById(`row_${orderId}`);
+            if (row) row.remove();
+            // Check if table is now empty
+            const remainingRows = document.querySelectorAll('#ordersTable table tr');
+            if (remainingRows.length <= 1) {
+              document.getElementById('ordersTable').innerHTML = `
+                <div class="empty-state">
+                  <div class="empty-state-icon">📦</div>
+                  <h3>No Orders Placed Yet</h3>
+                  <p>You haven't placed any orders yet. Head over to the shop to browse fresh fruits and vegetables!</p>
+                </div>`;
+            }
+          } else {
+            alert("Failed to remove order: " + result.message);
+          }
+        })
+        .catch(() => {
+          alert("Error removing order.");
         });
     }
 
