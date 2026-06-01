@@ -24,6 +24,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel']) && isset($_
     echo json_encode($response); exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete']) && isset($_POST['order_id'])) {
+    $order_id = intval($_POST['order_id']);
+    // Only allow deleting cancelled or delivered orders
+    $check = "SELECT status FROM orders WHERE order_id='$order_id' AND buyer_id='$user_id'";
+    $res = mysqli_query($conn, $check);
+    $row = mysqli_fetch_assoc($res);
+    if ($row && in_array($row['status'], ['cancelled', 'delivered'])) {
+        mysqli_query($conn, "DELETE FROM order_items WHERE order_id='$order_id'");
+        mysqli_query($conn, "DELETE FROM orders WHERE order_id='$order_id' AND buyer_id='$user_id'");
+        $response['success'] = true;
+        $response['message'] = "Order removed.";
+    } else {
+        $response['message'] = "Cannot remove an active order.";
+    }
+    echo json_encode($response); exit;
+}
+
 
 $query = "SELECT order_id, total_amount, status FROM orders WHERE buyer_id='$user_id' ORDER BY order_id DESC";
 $result = mysqli_query($conn, $query);

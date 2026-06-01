@@ -17,18 +17,26 @@
 
     .form-box2 {
       width: 100%;
-      background: rgba(255, 255, 255, 0.5);
+      background: rgba(255, 255, 255, 0.72);
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(10px);
       padding: 20px 30px;
+    }
+
+    .page-title {
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      color: #1f2937;
+      font-size: 1.6rem;
     }
   </style>
 </head>
 
 <body class="seller">
   <div id="sidebar-container" data-role="seller"></div>
-  <br>
-  <h2>Add New Product</h2>
+  <h2 class="page-title">Add New Product</h2>
   <div class="form-container2">
     <div class="form-box2">
       <form id="addProductForm">
